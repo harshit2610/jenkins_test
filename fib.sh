@@ -1,6 +1,6 @@
 #!  /bin/bash
 echo "Enter the value of n "
-n=10000
+n=10
 a=0
 b=1
 c=2

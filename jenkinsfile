@@ -4,7 +4,7 @@ pipeline {
     stage('Build Docker image') {
       steps {
         script {
-          docker.build('harshit2610/fibonacci:2.0')
+          docker.build('harshit2610/fibonnaci:2.0')
         }
       }
     }
@@ -12,9 +12,14 @@ pipeline {
       steps {
         script {
           docker.withRegistry('https://registry.hub.docker.com', 'docker_harshit') {
-            docker.image('harshit2610/fibonacci:2.0').push()
+            docker.image('harshit2610/fibonnaci:2.0').push()
           }
         }
+      }
+    }
+      stage('Cleanup') {
+      steps {
+        cleanWs()
       }
     }
   }
