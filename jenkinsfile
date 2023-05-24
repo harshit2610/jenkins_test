@@ -5,8 +5,7 @@ pipeline {
       steps {
         script {
           def builtImage = docker.build("fibonacci:2.0", "-f Dockerfile .")
-          docker.withRegistry('https://index.docker.io/v1/', 'docker_har') {
-
+          docker.withRegistry('https://registry.hub.docker.com', 'docker_har') {
             builtImage.push("harshit2610/fibonnaci:2.0")
           }
         }
