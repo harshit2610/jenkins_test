@@ -1,23 +1,21 @@
 pipeline {
-  agent any
-  stages {
-    stage('Build Docker image') {
-      steps {
-        script {
-           // docker.build("fibonnaci:3.0", "-f Dockerfile .")
-            def builtImage = docker.build("fibonnaci:3.0", "-f Dockerfile .")
-        }
-      }
-    }
-    stage('Push to Docker Hub') {
-      steps {
-        script {
-       docker.withRegistry('https://registry.hub.docker.com', '2d02e149-2bd5-4d73-a88c-83bdf82fe084')
-       {
-         builtImage.push("harshit2610/fibonnaci:2.0")
-       }
-        }
-      }
-    }
-  }
+  agent any
+  stages {
+    stage('Build Docker image') {
+      steps {
+        script {
+          def builtImage = docker.build("fibonnaci:3.0", "-f Dockerfile .")
+        }
+      }
+    }
+    stage('Push to Docker Hub') {
+      steps {
+        script {
+          docker.withRegistry('https://registry.hub.docker.com', '2d02e149-2bd5-4d73-a88c-83bdf82fe084') {
+            builtImage.push()
+          }
+        }
+      }
+    }
+  }
 }
