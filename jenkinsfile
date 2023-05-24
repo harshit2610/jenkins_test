@@ -1,13 +1,15 @@
 pipeline {
   agent any
    parameters {
-  string defaultValue: 'harshit2610/fibonnaci', description: 'image name', name: 'image_name'
+  string(name: 'dockerhub_image_name', defaultValue: 'harshit2610/fibonnaci', description: 'Specify the Dockerhub image name')
+    string(name: 'tag_num', defaultValue: '3.0', description: 'Specify the Docker image tag')
+    string(name: 'harbor_image_name', defaultValue: 'sre-training/harshit-fibonacci', description: 'Specify the harbor image name')
 }
   stages {
     stage('Build Docker image') {
       steps {
         script {
-          docker.build("${params.image_name}:2.0")
+          docker.build("${params.dockerhub_image_name}:${params.tag_num}")
         }
       }
     }
@@ -15,7 +17,7 @@ pipeline {
       steps {
         script {
           docker.withRegistry('https://registry.hub.docker.com', 'docker_harshit') {
-            docker.image("${params.image_name}:2.0").push()
+            docker.image("${params.dockerhub_image_name}:${params.tag_num}").push()
           }
         }
       }
@@ -23,7 +25,7 @@ pipeline {
    stage('Build and Push Docker Image') {
             steps {
                 script {
-                def dockerImage = docker.build("sre-training/harshit-fibonacci:2.0", "-f Dockerfile .")
+                def dockerImage = docker.build("${params.harbor_image_name}:${params.tag_num}", "-f Dockerfile .")
                     
                         docker.withRegistry('https://harbor.cubastion.net', 'harbor_sre') {
                             dockerImage.push()
