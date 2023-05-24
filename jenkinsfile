@@ -5,15 +5,9 @@ pipeline {
       steps {
         script {
           def builtImage = docker.build("fibonnaci:2.0", "-f Dockerfile .")
-          env.IMAGE_TAG = "${builtImage.imageId}"
-        }
-      }
-    }
-    stage('Push to Docker Hub') {
-      steps {
-        script {
+         def taggedImage = builtImage.tag("harshit2610/fibonnaci:2.0")
           docker.withRegistry('https://registry.hub.docker.com', 'docker_har') {
-            docker.image(env.IMAGE_TAG).push("harshit2610/fibonnaci:2.0")
+            taggedImage.push("harshit2610/fibonnaci:2.0")
           }
         }
       }
