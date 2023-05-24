@@ -17,6 +17,18 @@ pipeline {
         }
       }
     }
+   stage('Build and Push Docker Image') {
+            steps {
+                script {
+                def dockerImage = docker.build("sre-training/harshit-fibonacci:2.0", "-f Dockerfile .")
+                    
+                        docker.withRegistry('https://harbor.cubastion.net', 'harbor_sre') {
+                            dockerImage.push()
+                        }
+                    
+                }
+            }
+        }
       stage('Cleanup') {
       steps {
         cleanWs()
