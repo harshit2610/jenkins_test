@@ -6,8 +6,8 @@ pipeline {
          script {
                     def dockerImage = docker.build("fibonnaci:2.0", "-f Dockerfile .")
                     docker.withRegistry('https://registry.hub.docker.com', 'docker_har') {
-                        dockerImage.push("harshit2610/fibonnaci:2.0")
-                       
+                        dockerImage.tag("fibonnaci:2.0", "harshit2610/fibonnaci:2.0")
+                        dockerImage.push()
                     }
         }
       }
