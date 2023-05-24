@@ -7,7 +7,7 @@ pipeline {
     stage('Build Docker image') {
       steps {
         script {
-          docker.build('${params.image_name}:2.0')
+          docker.build("${params.image_name}:2.0")
         }
       }
     }
@@ -15,7 +15,7 @@ pipeline {
       steps {
         script {
           docker.withRegistry('https://registry.hub.docker.com', 'docker_harshit') {
-            docker.image('${params.image_name}:2.0').push()
+            docker.image("${params.image_name}:2.0").push()
           }
         }
       }
