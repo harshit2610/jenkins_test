@@ -11,7 +11,7 @@ pipeline {
     stage('Push to Docker Hub') {
       steps {
         script {
-          docker.withRegistry('https://registry.hub.docker.com', 'doker-harshit') {
+          docker.withRegistry('https://registry.hub.docker.com', 'docker_harshit') {
             builtImage.push()
           }
         }
