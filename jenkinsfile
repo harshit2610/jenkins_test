@@ -3,13 +3,14 @@ pipeline {
   stages {
     stage('Build Docker image') {
       steps {
-         script {
-                    def dockerImage = docker.build("fibonnaci:2.0", "-f Dockerfile .")
-                    docker.withRegistry('https://registry.hub.docker.com', 'docker_har') {
-                        dockerImage.tag("fibonnaci:2.0", "harshit2610/fibonnaci:2.0")
-                        dockerImage.push()
-                    }
-        }
+          script {
+          def builtImage = docker.build("fibonnaci:2.0", "-f Dockerfile .")
+          
+          def taggedImage = builtImage.tag("2.0")
+          
+          docker.withRegistry('https://index.docker.io/v1/', 'docker_har') {
+            taggedImage.push()
+          }
       }
     }
   }
