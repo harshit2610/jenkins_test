@@ -4,14 +4,14 @@ pipeline {
     stage('Build Docker image') {
       steps {
         script {
-          def builtImage = docker.build("fibonnaci:3.0", "-f Dockerfile .")
+          def builtImage = docker.build("fibonacci:2.0", "-f Dockerfile .")
         }
       }
     }
     stage('Push to Docker Hub') {
       steps {
         script {
-          docker.withRegistry('https://registry.hub.docker.com', 'docker_harshit') {
+          docker.withRegistry('https://index.docker.io/v1/', 'docker_harshit') {
             builtImage.push()
           }
         }
